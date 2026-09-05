@@ -1,0 +1,563 @@
+{
+	"version": 3,
+	"category": "legality",
+	"vectors": [
+		{
+			"id": "legality.quiet-move-rook-a1-a4",
+			"note": "quiet move — Rook a1-a4",
+			"position": "4k^3/8/8/8/8/8/8/R3K^3 / W/w",
+			"move": ["a1", "a4", null],
+			"legal": true,
+			"result": "4k^3/8/8/8/R7/8/8/4K^3 / w/W",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.superfluous-actor-rook-a1-a4-is-illegal",
+			"note": "superfluous actor — Rook a1-a4 carrying an actor: no choice promotion here (UnexpectedActor)",
+			"position": "4k^3/8/8/8/8/8/8/R3K^3 / W/w",
+			"move": ["a1", "a4", "queen"],
+			"legal": false
+		},
+		{
+			"id": "legality.capture-rook-takes-rook-piece-in-hand",
+			"note": "capture — Rook takes Rook, piece in hand",
+			"position": "4k^3/8/8/r7/8/8/8/R3K^3 / W/w",
+			"move": ["a1", "a5", null],
+			"legal": true,
+			"result": "4k^3/8/8/R7/8/8/8/4K^3 r/ w/W",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.back-rank-mate-ra1-a8",
+			"note": "back-rank mate — Ra1-a8",
+			"position": "7k^/6pp/8/8/8/8/8/R3K^3 / W/w",
+			"move": ["a1", "a8", null],
+			"legal": true,
+			"result": "R6-k^/6pp/8/8/8/8/8/4K^3 / w/W",
+			"status": "checkmate"
+		},
+		{
+			"id": "legality.promotion-pawn-a7-a8-to-queen-gives-check",
+			"note": "promotion — Pawn a7-a8 to Queen (gives check)",
+			"position": "4k^3/P7/8/8/8/8/8/4K^3 / W/w",
+			"move": ["a7", "a8", "queen"],
+			"legal": true,
+			"result": "Q3-k^3/8/8/8/8/8/8/4K^3 / w/W",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.promotion-pawn-a7-a8-actorless-is-illegal",
+			"note": "promotion — Pawn a7-a8 with no actor: the chess choice is required (ActorRequired)",
+			"position": "4k^3/P7/8/8/8/8/8/4K^3 / W/w",
+			"move": ["a7", "a8", null],
+			"legal": false
+		},
+		{
+			"id": "legality.promotion-pawn-a7-a8-to-king-is-illegal",
+			"note": "promotion — Pawn a7-a8 to King: not a chess promotion target (InvalidTarget)",
+			"position": "4k^3/P7/8/8/8/8/8/4K^3 / W/w",
+			"move": ["a7", "a8", "king"],
+			"legal": false
+		},
+		{
+			"id": "legality.kingside-castling-e1-g1",
+			"note": "kingside castling — e1-g1",
+			"position": "4k^3/8/8/8/8/8/8/4K^2+R / W/w",
+			"move": ["e1", "g1", null],
+			"legal": true,
+			"result": "4k^3/8/8/8/8/8/8/5RK^1 / w/W",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.en-passant-executed-the-taken-pawn-leaves-b4",
+			"note": "en passant executed — the taken pawn leaves b4",
+			"position": "4k^3/8/8/8/p-P6/8/8/4K^3 / w/W",
+			"move": ["a4", "b3", null],
+			"legal": true,
+			"result": "4k^3/8/8/8/8/1p6/8/4K^3 /P W/w",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.fu-drop-gi-no-double-step-prefix",
+			"note": "Fu drop (ōgi) — no double-step prefix",
+			"position": "7k^/8/8/8/8/8/8/4K^3 F/ J/j",
+			"move": [null, "e4", "fu"],
+			"legal": true,
+			"result": "7k^/8/8/8/4F3/8/8/4K^3 / j/J",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.fu-drop-with-an-empty-hand-is-illegal",
+			"note": "Fu drop with an empty hand (ōgi) — nothing to drop (IllegalDrop)",
+			"position": "7k^/8/8/8/8/8/8/4K^3 / J/j",
+			"move": [null, "e4", "fu"],
+			"legal": false
+		},
+		{
+			"id": "legality.fu-drop-from-an-opponent-case-hand-piece-is-illegal",
+			"note": "Fu drop from an opponent-case hand piece (ōgi) — an inert token is never droppable (IllegalDrop)",
+			"position": "7k^/8/8/8/8/8/8/4K^3 f/ J/j",
+			"move": [null, "e4", "fu"],
+			"legal": false
+		},
+		{
+			"id": "legality.tokin-drop-is-illegal",
+			"note": "Tokin drop (ōgi) — outside the drop vocabulary; a Tokin is never in hand (IllegalDrop)",
+			"position": "7k^/8/8/8/8/8/8/4K^3 F/ J/j",
+			"move": [null, "e4", "tokin"],
+			"legal": false
+		},
+		{
+			"id": "legality.king-drop-is-illegal",
+			"note": "King drop (ōgi) — outside the drop vocabulary (IllegalDrop)",
+			"position": "7k^/8/8/8/8/8/8/4K^3 F/ J/j",
+			"move": [null, "e4", "king"],
+			"legal": false
+		},
+		{
+			"id": "legality.automatic-promotion-fu-tokin-gi-gives-check",
+			"note": "automatic promotion Fu->Tokin (ōgi) — gives check",
+			"position": "4k^3/5F2/8/8/8/8/8/4K^3 / J/j",
+			"move": ["f7", "f8", null],
+			"legal": true,
+			"result": "4-k^T2/8/8/8/8/8/8/4K^3 / j/J",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.ogi-promotion-with-actor-is-illegal",
+			"note": "automatic promotion Fu->Tokin (ōgi) — an actor is superfluous (UnexpectedActor)",
+			"position": "4k^3/5F2/8/8/8/8/8/4K^3 / J/j",
+			"move": ["f7", "f8", "rook"],
+			"legal": false
+		},
+		{
+			"id": "legality.illegal-move-no-piece-on-a1-position-unchanged",
+			"note": "Illegal move (no piece on a1): position unchanged.",
+			"position": "4k^3/8/8/8/8/8/8/4K^3 / W/w",
+			"move": ["a1", "a4", null],
+			"legal": false
+		},
+		{
+			"id": "legality.uchifuzume-gi-dropping-a-fu-that-mates-is-illegal",
+			"note": "Uchifuzume (ōgi): dropping a Fu that mates is illegal.",
+			"position": "7k^/8/5N2/8/8/8/8/4K^1R1 F/ J/j",
+			"move": [null, "h7", "fu"],
+			"legal": false
+		},
+		{
+			"id": "legality.fu-drop-giving-a-plain-check-gi-allowed-game-ongoing",
+			"note": "Fu drop giving a plain check (ōgi): allowed, game ongoing.",
+			"position": "7k^/8/8/8/8/8/8/4K^1R1 F/ J/j",
+			"move": [null, "h7", "fu"],
+			"legal": true,
+			"result": "7-k^/7F/8/8/8/8/8/4K^1R1 / j/J",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.insufficiency-chess-last-capture",
+			"note": "the capture that leaves the two lone Kings draws immediately (insufficient); the captured rook sits inert in the hand",
+			"position": "4k^3/8/8/8/8/8/8/3r-K^3 / W/w",
+			"move": ["e1", "d1", null],
+			"legal": true,
+			"result": "4k^3/8/8/8/8/8/8/3K^4 r/ w/W",
+			"status": "insufficient"
+		},
+		{
+			"id": "legality.insufficiency-xiongqi-last-capture",
+			"note": "the General captures like a Chariot; taking the last piece leaves the two lone Generals — insufficient. The black General sits on a8, off the shared file: two Generals facing each other across an open file is an illegal state (the side that just moved would stand in check — the flying-general prohibition, as in xiangqi)",
+			"position": "g^7/8/8/8/8/8/8/3r-G^3 / C/c",
+			"move": ["e1", "d1", null],
+			"legal": true,
+			"result": "g^7/8/8/8/8/8/8/3G^4 r/ c/C",
+			"status": "insufficient"
+		},
+		{
+			"id": "legality.insufficiency-mixed-king-vs-general",
+			"note": "cross-variant: a lone King versus a lone General is declared drawn by insufficient material outright (deciders' ruling, 2026-07-10 — not strictly a dead position, but no side can force a win)",
+			"position": "4g^3/8/8/8/8/8/8/3r-K^3 / W/c",
+			"move": ["e1", "d1", null],
+			"legal": true,
+			"result": "4g^3/8/8/8/8/8/8/3K^4 r/ c/W",
+			"status": "insufficient"
+		},
+		{
+			"id": "legality.insufficiency-ogi-capture-fills-the-hand",
+			"note": "ōgi: capturing the last piece converts it into the hand — droppable material remains, so lone-Kings-on-the-board is NOT insufficient here",
+			"position": "4k^3/8/8/8/8/8/8/3fK^3 / J/j",
+			"move": ["e1", "d1", null],
+			"legal": true,
+			"result": "4k^3/8/8/8/8/8/8/3K^4 F/ j/J",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.nomove-jammed-side-without-check",
+			"note": "second is fully jammed (pawns on/against their last rank, king walled in by them): an empty PSEUDO-legal set — the nomove draw, not a stalemate",
+			"position": "7K^/8/8/8/8/8/pp6/k^p6 / W/w",
+			"move": ["h8", "g8", null],
+			"legal": true,
+			"result": "6K^1/8/8/8/8/8/pp6/k^p6 / w/W",
+			"status": "nomove"
+		},
+		{
+			"id": "legality.nomove-jammed-side-in-check",
+			"note": "the knight checks the jammed king: still the nomove draw — an empty pseudo-legal set outranks checkmate (terminal::classify)",
+			"position": "7K^/8/8/8/8/8/pp6/k^p2N3 / W/w",
+			"move": ["e1", "c2", null],
+			"legal": true,
+			"result": "7K^/8/8/8/8/8/ppN5/-k^p6 / w/W",
+			"status": "nomove"
+		},
+		{
+			"id": "legality.en-passant-capture-resolves-check",
+			"note": "the just-double-stepped -p checks the King; the en-passant capture removes the checker and is legal — pins the marker-reading escape (ADR-0010 finding 3)",
+			"position": "7k^/8/8/3-pP3/2-K^5/8/8/8 / W/w",
+			"move": ["e5", "d6", null],
+			"legal": true,
+			"result": "7k^/8/3P4/8/2K^5/8/8/8 p/ w/W",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-lateral-en-passant-capture",
+			"note": "xiongqi lateral en passant — the marked Soldier-victim behind the skipped square is captured into the tray",
+			"position": "k^7/8/6S1/5-p2/8/8/8/4G^3 / C/w",
+			"move": ["g6", "f6", null],
+			"legal": true,
+			"result": "k^7/8/5S2/8/8/8/8/4G^3 p/ w/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-lateral-ep-exposing-own-royal-is-illegal",
+			"note": "xiongqi lateral en passant that would expose the capturer's royal (crafted `-` marker): the capture reading is decisive — illegal (LeavesRoyalInCheck)",
+			"position": "k^1b5/8/6S1/5-p2/8/7G^/8/8 / C/w",
+			"move": ["g6", "f6", null],
+			"legal": false
+		},
+		{
+			"id": "legality.xiongqi-lateral-step-beside-an-unmarked-pawn-is-quiet",
+			"note": "xiongqi sideways step beside an UNMARKED double-stepper: a quiet move — the victim stays (deciders' confirmation, 2026-07-19)",
+			"position": "k^1b5/8/6S1/5p2/8/7G^/8/8 / C/w",
+			"move": ["g6", "f6", null],
+			"legal": true,
+			"result": "k^1b5/8/5S2/5p2/8/7G^/8/8 / w/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.ep-canonicality-capturer-vacation-withholds-the-marker",
+			"note": "canonicality — the double step f2-f4 is NOT marked `-P`: capturing en passant would vacate e3 and open the e-file (Q e2 → g^ e8), a self-check for the capturer",
+			"position": "-rnbeg^bn-r/+s+s+s+s1+s+s+s/8/8/8/4s3/+P+P+P+PQ+P+P+P/-RNB1K^BN-R /P W/c",
+			"move": ["f2", "f4", null],
+			"legal": true,
+			"result": "-rnbeg^bn-r/+s+s+s+s1+s+s+s/8/8/5P2/4s3/+P+P+P+PQ1+P+P/-RNB1K^BN-R /P c/W",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.ep-canonicality-pinned-soldier-sideways-step-is-illegal",
+			"note": "the e3 Soldier is functionally pinned by Q e2 against g^ e8: the sideways step opens the e-file (LeavesRoyalInCheck)",
+			"position": "-rnbeg^bn-r/+s+s+s+s1+s+s+s/8/8/5P2/4s3/+P+P+P+PQ1+P+P/-RNB1K^BN-R /P c/W",
+			"move": ["e3", "f3", null],
+			"legal": false
+		},
+		{
+			"id": "legality.ep-canonicality-pinned-soldier-captures-the-queen",
+			"note": "the pinned Soldier's only move: capturing the pinning Queen forward — the capture checks K^ e1 (Soldier attack + royal confrontation on the opened e-file → `-K^`), Queen inert in hand",
+			"position": "-rnbeg^bn-r/+s+s+s+s1+s+s+s/8/8/5P2/4s3/+P+P+P+PQ1+P+P/-RNB1K^BN-R /P c/W",
+			"move": ["e3", "e2", null],
+			"legal": true,
+			"result": "-rnbeg^bn-r/+s+s+s+s1+s+s+s/8/8/5P2/8/+P+P+P+Ps1+P+P/-RNB1-K^BN-R /PQ W/c",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.ep-canonicality-safe-capture-sets-the-marker",
+			"note": "canonicality — the double step f2-f4 IS marked `-P`: the e3 Soldier can capture en passant without exposing its General",
+			"position": "-rnbeg^bn-r/+s+s+s+s1+s+s+s/8/8/8/4s3/+P+P+P+P1+P+P+P/-RNBQK^BN-R /P W/c",
+			"move": ["f2", "f4", null],
+			"legal": true,
+			"result": "-rnbeg^bn-r/+s+s+s+s1+s+s+s/8/8/5-P2/4s3/+P+P+P+P2+P+P/-RNBQK^BN-R /P c/W",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.ep-canonicality-marked-sideways-step-is-the-capture",
+			"note": "the sideways step onto the skipped square IS the en-passant capture (mandatory): the marked `-P` leaves f4, and the opened e-file puts K^ in check by g^ (royal confrontation → `-K^`)",
+			"position": "-rnbeg^bn-r/+s+s+s+s1+s+s+s/8/8/5-P2/4s3/+P+P+P+P2+P+P/-RNBQK^BN-R /P c/W",
+			"move": ["e3", "f3", null],
+			"legal": true,
+			"result": "-rnbeg^bn-r/+s+s+s+s1+s+s+s/8/8/8/5s2/+P+P+P+P2+P+P/-RNBQ-K^BN-R /2P W/c",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.ep-canonicality-victim-removal-withholds-the-marker",
+			"note": "canonicality — the double step f2-f4 is NOT marked `-P`: removing the f4 victim would open the c1-Bishop's diagonal to g^ h6, a self-check for the capturer",
+			"position": "rnbe1bnr/+s+s+s+s1+s+s+s/7g^/8/8/3Ps3/+P+P+P2+P+P+P/-RNBQK^BN-R /P W/c",
+			"move": ["f2", "f4", null],
+			"legal": true,
+			"result": "rnbe1bnr/+s+s+s+s1+s+s+s/7g^/8/5P2/3Ps3/+P+P+P3+P+P/-RNBQK^BN-R /P c/W",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.ep-canonicality-unmarked-sideways-step-is-quiet",
+			"note": "beside the UNMARKED f4 pawn the sideways step is a quiet move — nothing is removed (the diagonal to g^ h6 stays blocked by f4, so the step itself is safe)",
+			"position": "rnbe1bnr/+s+s+s+s1+s+s+s/7g^/8/5P2/3Ps3/+P+P+P3+P+P/-RNBQK^BN-R /P c/W",
+			"move": ["e3", "f3", null],
+			"legal": true,
+			"result": "rnbe1bnr/+s+s+s+s1+s+s+s/7g^/8/5P2/3P1s2/+P+P+P3+P+P/-RNBQK^BN-R /P W/c",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.deadposition-ogi-lone-kings-live",
+			"note": "pure ōgi performs NO dead-position detection (rules-of-ogi §Dead-Position Detection): even the materially dead lone-Kings-with-empty-hands configuration (unreachable from the standard start) does not end the game",
+			"position": "4k^3/8/8/8/8/8/8/4K^3 / J/j",
+			"move": ["e1", "d1", null],
+			"legal": true,
+			"result": "4k^3/8/8/8/8/8/8/3K^4 / j/J",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.deadposition-chess-kb-vs-k",
+			"note": "chess: the capture that leaves King + Bishop versus King is an immediate dead-position draw (rules-of-chess §Dead-Position Detection)",
+			"position": "4k^3/8/8/8/8/8/8/3r-K^2B / W/w",
+			"move": ["e1", "d1", null],
+			"legal": true,
+			"result": "4k^3/8/8/8/8/8/8/3K^3B r/ w/W",
+			"status": "insufficient"
+		},
+		{
+			"id": "legality.deadposition-chess-kn-vs-k",
+			"note": "chess: the capture that leaves King + Knight versus King is an immediate dead-position draw",
+			"position": "4k^3/8/8/8/8/8/8/3r-K^2N / W/w",
+			"move": ["e1", "d1", null],
+			"legal": true,
+			"result": "4k^3/8/8/8/8/8/8/3K^3N r/ w/W",
+			"status": "insufficient"
+		},
+		{
+			"id": "legality.deadposition-chess-same-colour-bishops",
+			"note": "chess: Kings and Bishops only, all Bishops on the same colour (B h1, b c8) — dead as soon as the last other piece is captured",
+			"position": "2b1k^3/8/8/8/8/8/8/3r-K^2B / W/w",
+			"move": ["e1", "d1", null],
+			"legal": true,
+			"result": "2b1k^3/8/8/8/8/8/8/3K^3B r/ w/W",
+			"status": "insufficient"
+		},
+		{
+			"id": "legality.deadposition-chess-opposite-bishops-live",
+			"note": "chess: Bishops on OPPOSITE colours (B h1, b b8) are not a dead position — a cooperative mate exists, the game continues",
+			"position": "1b2k^3/8/8/8/8/8/8/3r-K^2B / W/w",
+			"move": ["e1", "d1", null],
+			"legal": true,
+			"result": "1b2k^3/8/8/8/8/8/8/3K^3B r/ w/W",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.deadposition-chess-two-knights-live",
+			"note": "chess: King + two Knights versus King is NOT dead (the criterion is possibility, not forceability — a cooperative mate exists), the game continues",
+			"position": "4k^3/8/8/8/8/8/8/3r-K^1NN / W/w",
+			"move": ["e1", "d1", null],
+			"legal": true,
+			"result": "4k^3/8/8/8/8/8/8/3K^2NN r/ w/W",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.ogi-kingside-castling-e1-g1",
+			"note": "ōgi kingside castling — e1-g1, adopted 2026-07-27 (rules-of-ogi §Castling): the Rook relocates to f1 and, having moved, goes plain R",
+			"position": "4k^3/8/8/8/8/8/8/4K^2+R / J/j",
+			"move": ["e1", "g1", null],
+			"legal": true,
+			"result": "4k^3/8/8/8/8/8/8/5RK^1 / j/J",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.ogi-queenside-castling-e1-c1",
+			"note": "ōgi queenside castling — e1-c1: the Rook relocates to d1",
+			"position": "4k^3/8/8/8/8/8/8/+R3K^3 / J/j",
+			"move": ["e1", "c1", null],
+			"legal": true,
+			"result": "4k^3/8/8/8/8/8/8/2K^R4 / j/J",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.ogi-castling-without-rights-is-illegal",
+			"note": "ōgi castling with a rights-less Rook is illegal: the h1 Rook is plain R — it has moved, or was dropped from hand (a drop never confers castling rights; rules-of-ogi §Castling)",
+			"position": "4k^3/8/8/8/8/8/8/4K^2R / J/j",
+			"move": ["e1", "g1", null],
+			"legal": false
+		},
+		{
+			"id": "legality.castling-canonicality-ogi-drop-attacks-the-transit-square",
+			"note": "canonicality — a gote Bishop dropped on g2 attacks f1, the King's transit square: the canonicalizer flips the h1 Rook +R -> -R (right retained, castling temporarily blocked)",
+			"position": "4k^3/8/8/8/8/8/8/4K^2+R /b j/J",
+			"move": [null, "g2", "bishop"],
+			"legal": true,
+			"result": "4k^3/8/8/8/8/8/6b1/4K^2-R / J/j",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.ogi-castling-through-attacked-square-is-illegal",
+			"note": "ōgi castling through the attacked transit square f1 (Bishop g2) is illegal — the -R marker announces exactly this blocked state",
+			"position": "4k^3/8/8/8/8/8/6b1/4K^2-R / J/j",
+			"move": ["e1", "g1", null],
+			"legal": false
+		},
+		{
+			"id": "legality.xiongqi-kingside-castling-e1-g1",
+			"note": "xiongqi kingside castling — e1-g1, adopted 2026-07-27 (rules-of-xiongqi §Castling): the Chariot relocates to f1; the enemy General sits off the e/g-files so no flying-general line interferes",
+			"position": "g^7/8/8/8/8/8/8/4G^2+R / C/c",
+			"move": ["e1", "g1", null],
+			"legal": true,
+			"result": "g^7/8/8/8/8/8/8/5RG^1 / c/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-queenside-castling-e1-c1",
+			"note": "xiongqi queenside castling — e1-c1: the Chariot relocates to d1",
+			"position": "1g^6/8/8/8/8/8/8/+R3G^3 / C/c",
+			"move": ["e1", "c1", null],
+			"legal": true,
+			"result": "1g^6/8/8/8/8/8/8/2G^R4 / c/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-general-two-file-capture-is-not-castling",
+			"note": "a two-file General displacement onto an OCCUPIED square is a Chariot-style capture, not castling: no Chariot relocation, the knight goes inert into the hand, and the General's displacement strips h1 to plain R (rules-of-xiongqi §Castling, disambiguation)",
+			"position": "g^7/8/8/8/8/8/8/4G^1n-R / C/c",
+			"move": ["e1", "g1", null],
+			"legal": true,
+			"result": "g^7/8/8/8/8/8/8/6G^R n/ c/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-castling-onto-flying-general-file-is-illegal",
+			"note": "flying general — the landing square g1 lies on the enemy General's open g-file (condition 6): castling is illegal, and the h1 Chariot canonically carries -R",
+			"position": "6g^1/8/8/8/8/8/8/4G^2-R / C/c",
+			"move": ["e1", "g1", null],
+			"legal": false
+		},
+		{
+			"id": "legality.xiongqi-bear-diagonal-slide",
+			"note": "the Bear (熊) slides any number of squares diagonally, exactly as a Western Bishop — here two squares within Red's own half",
+			"position": "g^7/8/8/8/8/8/8/2B1G^3 / C/c",
+			"move": ["c1", "e3", null],
+			"legal": true,
+			"result": "g^7/8/8/8/8/4B3/8/4G^3 / c/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-bear-crosses-the-river",
+			"note": "the river restricts ONLY Soldiers: the Bear slides straight across it, unlike the xiàngqí Elephant it replaces, which may never leave its own half",
+			"position": "g^7/8/8/8/8/8/8/2B1G^3 / C/c",
+			"move": ["c1", "h6", null],
+			"legal": true,
+			"result": "g^7/8/7B/8/8/8/8/4G^3 / c/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-bear-cannot-jump",
+			"note": "the Bear is a slider, not a jumper: an occupied square on the diagonal blocks it",
+			"position": "g^7/8/8/8/8/4s3/8/2B1G^3 / C/c",
+			"move": ["c1", "h6", null],
+			"legal": false
+		},
+		{
+			"id": "legality.xiongqi-bear-has-no-orthogonal-move",
+			"note": "the Bear's domain is the diagonal alone — the orthogonal slide belongs to the Chariot",
+			"position": "g^7/8/8/8/8/8/8/2B1G^3 / C/c",
+			"move": ["c1", "c5", null],
+			"legal": false
+		},
+		{
+			"id": "legality.xiongqi-empress-orthogonal-slide",
+			"note": "the Empress (妃/騛) combines Chariot and Knight; here the Chariot component slides the full file. The lone black Soldier on h4 is deliberate: without a second black piece, an Empress on d7 covers both a7 (rank) and b8 (knight jump) and the bare General is STALEMATED — the vector would then test the terminal classifier rather than the slide",
+			"position": "g^7/8/8/8/7s/8/8/3EG^3 / C/c",
+			"move": ["d1", "d7", null],
+			"legal": true,
+			"result": "g^7/3E4/8/8/7s/8/8/4G^3 / c/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-empress-knight-jump-over-occupied-squares",
+			"note": "the Knight component jumps: the Empress reaches f2 from d1 with BOTH intervening squares occupied (its own General on e1, its own Soldier on e2)",
+			"position": "g^7/8/8/8/8/8/3SS3/3EG^3 / C/c",
+			"move": ["d1", "f2", null],
+			"legal": true,
+			"result": "g^7/8/8/8/8/8/3SSE2/4G^3 / c/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-empress-orthogonal-slide-cannot-jump",
+			"note": "the Chariot component is a slider: a piece on the file blocks it (only the Knight component jumps)",
+			"position": "g^7/8/8/8/3s4/8/8/3EG^3 / C/c",
+			"move": ["d1", "d7", null],
+			"legal": false
+		},
+		{
+			"id": "legality.xiongqi-empress-has-no-diagonal-slide",
+			"note": "the Empress is Chariot+Knight, NOT Chariot+Bear: it has no diagonal slide at all — the single sharpest difference from the Western Queen it replaces",
+			"position": "g^7/8/8/8/8/8/8/3EG^3 / C/c",
+			"move": ["d1", "g4", null],
+			"legal": false
+		},
+		{
+			"id": "legality.xiongqi-soldier-sideways-before-the-river-is-illegal",
+			"note": "a Red Soldier on rank 3 has not crossed the river (the midline between ranks 4 and 5), so it has no sideways step yet",
+			"position": "g^7/8/8/8/8/3S4/8/4G^3 / C/c",
+			"move": ["d3", "e3", null],
+			"legal": false
+		},
+		{
+			"id": "legality.xiongqi-soldier-sideways-after-crossing-is-legal",
+			"note": "past the river (Red on ranks 5-8) the Soldier gains the one-square sideways step onto an empty square — the river's only effect in the whole game",
+			"position": "g^7/8/3S4/8/8/8/8/4G^3 / C/c",
+			"move": ["d6", "e6", null],
+			"legal": true,
+			"result": "g^7/8/4S3/8/8/8/8/4G^3 / c/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-soldier-never-captures-diagonally",
+			"note": "the Soldier captures straight forward only — never diagonally, at any point of the board, crossed river or not (unlike the chess Pawn)",
+			"position": "g^7/4s3/3S4/8/8/8/8/4G^3 / C/c",
+			"move": ["d6", "e7", null],
+			"legal": false
+		},
+		{
+			"id": "legality.xiongqi-soldier-double-step",
+			"note": "a Soldier still carrying the `+` prefix may advance two squares straight forward when both squares are empty",
+			"position": "g^7/8/8/8/8/8/3+S4/4G^3 / C/c",
+			"move": ["d2", "d4", null],
+			"legal": true,
+			"result": "g^7/8/8/8/3S4/8/8/4G^3 / c/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-soldier-promotes-to-empress",
+			"note": "promotion is mandatory on the last rank and the target is the player's genuine CHOICE among four pieces; the move record must carry it as the actor",
+			"position": "8/3S4/8/g^7/8/8/8/4G^3 / C/c",
+			"move": ["d7", "d8", "empress"],
+			"legal": true,
+			"result": "3E4/8/8/g^7/8/8/8/4G^3 / c/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-soldier-promotes-to-knight",
+			"note": "the same Soldier on the same square promotes to a Knight instead — proving the choice is real and not a fixed transformation (contrast the ōgi Fu, whose Tokin promotion is forced and actorless)",
+			"position": "8/3S4/8/g^7/8/8/8/4G^3 / C/c",
+			"move": ["d7", "d8", "knight"],
+			"legal": true,
+			"result": "3N4/8/8/g^7/8/8/8/4G^3 / c/C",
+			"status": "ongoing"
+		},
+		{
+			"id": "legality.xiongqi-soldier-promotion-to-general-is-illegal",
+			"note": "the four targets are Chariot, Knight, Bear and Empress: a Soldier may never become the royal piece",
+			"position": "8/3S4/8/g^7/8/8/8/4G^3 / C/c",
+			"move": ["d7", "d8", "general"],
+			"legal": false
+		},
+		{
+			"id": "legality.xiongqi-soldier-promotion-to-soldier-is-illegal",
+			"note": "promotion is mandatory: the Soldier may not decline it by naming its own kind",
+			"position": "8/3S4/8/g^7/8/8/8/4G^3 / C/c",
+			"move": ["d7", "d8", "soldier"],
+			"legal": false
+		}
+	]
+}

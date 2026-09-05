@@ -1,0 +1,91 @@
+{
+	"version": 3,
+	"category": "time",
+	"vectors": [
+		{
+			"id": "time.premove-charges-zero",
+			"note": "a premove timed before the slot's anchor costs the mover no clock time",
+			"anchor": 50,
+			"timing": 20,
+			"expectedElapsed": 0
+		},
+		{
+			"id": "time.move-charges-delta",
+			"note": "a move played in order charges timing - anchor",
+			"anchor": 50,
+			"timing": 63,
+			"expectedElapsed": 13
+		},
+		{
+			"id": "time.equal-timing-charges-zero",
+			"note": "boundary: timing exactly at the anchor charges zero",
+			"anchor": 50,
+			"timing": 50,
+			"expectedElapsed": 0
+		},
+		{
+			"id": "time.abandonment-runs-to-cutoff",
+			"note": "abandonment timeout: the on-move player is charged from the last anchor to the cutoff (here the timing field carries the cutoff)",
+			"anchor": 50,
+			"timing": 90,
+			"expectedElapsed": 40
+		},
+		{
+			"id": "time.first-slot-from-t0",
+			"note": "first half-move charges from t0 (anchor = t0)",
+			"anchor": 0,
+			"timing": 12,
+			"expectedElapsed": 12
+		}
+	],
+	"sequences": [
+		{
+			"id": "time.seq.baseline-sequential",
+			"note": "strictly increasing timings charge their deltas, alternating sides; the anchor ends at the last timing",
+			"t0": 1000,
+			"timings": [1010, 1025, 1040],
+			"expected": {
+				"first": [10, 15],
+				"second": [15],
+				"anchor": 1040,
+				"onMove": "second"
+			}
+		},
+		{
+			"id": "time.seq.anterior-premove-charges-zero-and-holds-anchor",
+			"note": "the d0229f… law seen from the clock split: the applied premove (chain position 3, timed 50 — BEFORE its predecessor's 55) charges zero, and the anchor NEVER REWINDS to 50 — the next mover is billed from 55 (8 seconds), not from the premove's anterior instant (13). Mirrors scenario.premove-anchor-never-rewinds with the same numbers",
+			"t0": 45,
+			"timings": [48, 55, 50, 63],
+			"expected": {
+				"first": [3, 0],
+				"second": [7, 8],
+				"anchor": 63,
+				"onMove": "first"
+			}
+		},
+		{
+			"id": "time.seq.consecutive-anterior-timings-hold-the-anchor",
+			"note": "two consecutive chain entries timed before the standing anchor: each charges zero and the anchor holds — it only ever advances",
+			"t0": 0,
+			"timings": [10, 8, 9],
+			"expected": {
+				"first": [10, 0],
+				"second": [0],
+				"anchor": 10,
+				"onMove": "second"
+			}
+		},
+		{
+			"id": "time.seq.equal-timing-charges-zero-and-holds",
+			"note": "a timing exactly at the anchor charges zero (the boundary case of max(0, timing − anchor)) and leaves the anchor in place",
+			"t0": 0,
+			"timings": [10, 10],
+			"expected": {
+				"first": [10],
+				"second": [0],
+				"anchor": 10,
+				"onMove": "first"
+			}
+		}
+	]
+}

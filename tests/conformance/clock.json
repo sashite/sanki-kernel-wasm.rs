@@ -1,0 +1,312 @@
+{
+	"version": 1,
+	"category": "clock",
+	"vectors": [
+		{
+			"id": "clock.fischer-spend-and-increment",
+			"note": "Fischer 5+3 (time-accounting-sanki §Worked examples): 300 − 10 + 3 = 293, one ply accounted",
+			"timeControl": [[300, 3, null]],
+			"clock": {
+				"remaining": 300,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 10,
+			"expected": {
+				"kind": "continued",
+				"clock": {
+					"remaining": 293,
+					"period": 0,
+					"pliesInPeriod": 1
+				}
+			}
+		},
+		{
+			"id": "clock.fischer-flags-out-of-time",
+			"note": "remaining 5 < elapsed 10: flag (no following period)",
+			"timeControl": [[300, 3, null]],
+			"clock": {
+				"remaining": 5,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 10,
+			"expected": {
+				"kind": "flagged"
+			}
+		},
+		{
+			"id": "clock.fischer-increment-post-ply-flags",
+			"note": "the increment is a POST-PLY bonus, not available during the ply: 5 s remaining, 7 s elapsed flags despite +3",
+			"timeControl": [[300, 3, null]],
+			"clock": {
+				"remaining": 5,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 7,
+			"expected": {
+				"kind": "flagged"
+			}
+		},
+		{
+			"id": "clock.fischer-exact-fit-survives",
+			"note": "the flag falls strictly past the budget: elapsed == remaining survives, then gains the increment",
+			"timeControl": [[300, 3, null]],
+			"clock": {
+				"remaining": 10,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 10,
+			"expected": {
+				"kind": "continued",
+				"clock": {
+					"remaining": 3,
+					"period": 0,
+					"pliesInPeriod": 1
+				}
+			}
+		},
+		{
+			"id": "clock.fischer-zero-elapsed-gains-increment",
+			"note": "a zero-cost ply (e.g. a selected premove) still earns the post-ply increment",
+			"timeControl": [[300, 3, null]],
+			"clock": {
+				"remaining": 300,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 0,
+			"expected": {
+				"kind": "continued",
+				"clock": {
+					"remaining": 303,
+					"period": 0,
+					"pliesInPeriod": 1
+				}
+			}
+		},
+		{
+			"id": "clock.fixed-bank-depletes-linearly",
+			"note": "a plain bank with no increment depletes by the elapsed time",
+			"timeControl": [[600, null, null]],
+			"clock": {
+				"remaining": 600,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 60,
+			"expected": {
+				"kind": "continued",
+				"clock": {
+					"remaining": 540,
+					"period": 0,
+					"pliesInPeriod": 1
+				}
+			}
+		},
+		{
+			"id": "clock.fixed-bank-terminal-flags",
+			"note": "a terminal bank with 50 s left cannot absorb 60 s: flag",
+			"timeControl": [[600, null, null]],
+			"clock": {
+				"remaining": 50,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 60,
+			"expected": {
+				"kind": "flagged"
+			}
+		},
+		{
+			"id": "clock.per-move-resets",
+			"note": "per-move only (§Worked examples): [0, +30, /1] — a 20 s ply fits the allowance; quota reached, the last period repeats (reset, residual discarded)",
+			"timeControl": [[0, 30, 1]],
+			"clock": {
+				"remaining": 0,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 20,
+			"expected": {
+				"kind": "continued",
+				"clock": {
+					"remaining": 0,
+					"period": 0,
+					"pliesInPeriod": 0
+				}
+			}
+		},
+		{
+			"id": "clock.per-move-exact-allowance-survives",
+			"note": "elapsed == allowance survives (the flag is strictly past it), then the quota resets",
+			"timeControl": [[0, 30, 1]],
+			"clock": {
+				"remaining": 0,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 30,
+			"expected": {
+				"kind": "continued",
+				"clock": {
+					"remaining": 0,
+					"period": 0,
+					"pliesInPeriod": 0
+				}
+			}
+		},
+		{
+			"id": "clock.per-move-flags-past-allowance",
+			"note": "per-move only (§Worked examples): a 40 s ply exceeds the 30 s allowance: flag",
+			"timeControl": [[0, 30, 1]],
+			"clock": {
+				"remaining": 0,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 40,
+			"expected": {
+				"kind": "flagged"
+			}
+		},
+		{
+			"id": "clock.quota-mid-period-carries-remaining",
+			"note": "mid-quota ply: the allowance is available DURING the ply — remaining' = remaining + increment − elapsed, counter advances",
+			"timeControl": [[60, 10, 3]],
+			"clock": {
+				"remaining": 60,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 15,
+			"expected": {
+				"kind": "continued",
+				"clock": {
+					"remaining": 55,
+					"period": 0,
+					"pliesInPeriod": 1
+				}
+			}
+		},
+		{
+			"id": "clock.quota-reached-advances-period",
+			"note": "classical two-period (§Worked examples): the 40th accounted ply reaches the quota — advance to period 1, bank reset to 1800, the period-0 residual discarded",
+			"timeControl": [
+				[5400, 30, 40],
+				[1800, 30, null]
+			],
+			"clock": {
+				"remaining": 1000,
+				"period": 0,
+				"pliesInPeriod": 39
+			},
+			"elapsed": 10,
+			"expected": {
+				"kind": "continued",
+				"clock": {
+					"remaining": 1800,
+					"period": 1,
+					"pliesInPeriod": 0
+				}
+			}
+		},
+		{
+			"id": "clock.quota-last-period-repeats",
+			"note": "Canadian: the last period, quota reached, REPEATS — reset to its own duration, counter 0",
+			"timeControl": [[300, 60, 5]],
+			"clock": {
+				"remaining": 120,
+				"period": 0,
+				"pliesInPeriod": 4
+			},
+			"elapsed": 30,
+			"expected": {
+				"kind": "continued",
+				"clock": {
+					"remaining": 300,
+					"period": 0,
+					"pliesInPeriod": 0
+				}
+			}
+		},
+		{
+			"id": "clock.bank-rollover-to-overtime",
+			"note": "main bank then per-move overtime (§Worked examples, kind 3420 Example 5): 10 s left, 25 s elapsed — the 15 s overspend rolls into the [0, +30, /1] overtime, fits, quota reached, reset",
+			"timeControl": [
+				[3600, null, null],
+				[0, 30, 1]
+			],
+			"clock": {
+				"remaining": 10,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 25,
+			"expected": {
+				"kind": "continued",
+				"clock": {
+					"remaining": 0,
+					"period": 1,
+					"pliesInPeriod": 0
+				}
+			}
+		},
+		{
+			"id": "clock.bank-rollover-insufficient-flags",
+			"note": "same configuration, 50 s elapsed: the 40 s overspend exceeds the 30 s overtime allowance — flag",
+			"timeControl": [
+				[3600, null, null],
+				[0, 30, 1]
+			],
+			"clock": {
+				"remaining": 10,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 50,
+			"expected": {
+				"kind": "flagged"
+			}
+		},
+		{
+			"id": "clock.bank-rollover-chains-through-periods",
+			"note": "the rollover is recursive: 70 s across [100] (10 s left) exhausts [50] entirely and lands 10 s into [40, +5] — 40 − 10 + 5 = 35",
+			"timeControl": [
+				[100, null, null],
+				[50, null, null],
+				[40, 5, null]
+			],
+			"clock": {
+				"remaining": 10,
+				"period": 0,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 70,
+			"expected": {
+				"kind": "continued",
+				"clock": {
+					"remaining": 35,
+					"period": 2,
+					"pliesInPeriod": 1
+				}
+			}
+		},
+		{
+			"id": "clock.stale-period-index-flags",
+			"note": "a clock pointing past the last period is never trusted: flag",
+			"timeControl": [[300, 3, null]],
+			"clock": {
+				"remaining": 10,
+				"period": 3,
+				"pliesInPeriod": 0
+			},
+			"elapsed": 5,
+			"expected": {
+				"kind": "flagged"
+			}
+		}
+	]
+}

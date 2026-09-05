@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  fmt:
+    name: rustfmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The ref after @ is the toolchain; it matches rust-toolchain.toml (1.96.0).
+      - uses: dtolnay/rust-toolchain@1.96.0
+        with:
+          components: rustfmt
+      - run: cargo fmt --all --check
+
+  clippy:
+    name: clippy (native and wasm32)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.96.0
+        with:
+          components: clippy
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo clippy --all-targets -- -D warnings
+      # The exports module is compiled for the wasm target only.
+      - run: cargo clippy --target wasm32-unknown-unknown -- -D warnings
+
+  conformance:
+    name: conformance (wasmi and V8, byte-identical)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.96.0
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: Swatinem/rust-cache@v2
+      # The module, as published: the release build for the wasm target.
+      - run: cargo build --release --target wasm32-unknown-unknown --locked
+      - run: sha256sum target/wasm32-unknown-unknown/release/sashite_sanki_kernel_wasm.wasm
+      # Native unit tests; the module under wasmi — its shape, the corpus, the
+      # differential against the native engine, the extreme session.
+      # Release: the interpreter is far too slow unoptimised.
+      - run: cargo test --release
+      # The same corpus and the extreme session under V8, compared with the
+      # wasmi records byte for byte.
+      - run: node harness/node/run.mjs
+
+  docs:
+    name: docs
+    runs-on: ubuntu-latest
+    env:
+      RUSTDOCFLAGS: "-D warnings"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.96.0
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo doc --no-deps
+
+  msrv:
+    name: msrv (1.83)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.83.0
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      # rust-toolchain.toml pins 1.96.0, so `+1.83.0` is required to override it
+      # and actually verify the declared MSRV builds both faces of the crate.
+      - run: cargo +1.83.0 check
+      - run: cargo +1.83.0 check --target wasm32-unknown-unknown
+
+  deny:
+    name: cargo-deny
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: EmbarkStudios/cargo-deny-action@v2
+        with:
+          command: check

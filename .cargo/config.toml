@@ -1,0 +1,18 @@
+# The module's build flags (Kernel ABI — Sanki §The module, §Bounds).
+#
+# The memory is fixed at 2048 pages (128 MiB): `--initial-memory` and
+# `--max-memory` make the linker declare `min = max = 2048`, so the module never
+# grows. The arena the allocator claims is a zero-initialised static
+# (`src/exports.rs`), which the linker places in that memory without storing it
+# in the binary. Source paths are remapped so that the bytes do not depend on
+# where the build ran: the pinned build (`build/`) runs in `/build` with the
+# registry under `/usr/local/cargo`, and any other checkout reproduces the same
+# bytes only from those two locations.
+[target.wasm32-unknown-unknown]
+rustflags = [
+  "-C", "link-arg=--initial-memory=134217728",
+  "-C", "link-arg=--max-memory=134217728",
+  "-C", "link-arg=-zstack-size=2097152",
+  "--remap-path-prefix=/build=/",
+  "--remap-path-prefix=/usr/local/cargo/registry/src=/registry",
+]
